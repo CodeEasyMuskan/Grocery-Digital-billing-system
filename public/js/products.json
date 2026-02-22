@@ -1,0 +1,184 @@
+[
+  {
+    "id": 1,
+    "name": "Rice (10kg)",
+    "price": 450,
+    "stock": 50,
+    "image": "js/images/rice.png"
+  },
+  {
+    "id": 2,
+    "name": "Sugar (1kg)",
+    "price": 45,
+    "stock": 40,
+    "image": "js/images/sugar.png"
+  },
+  {
+    "id": 3,
+    "name": "Cooking Oil (1L)",
+    "price": 120,
+    "stock": 35,
+    "image": "js/images/oil.png"
+  },
+  {
+    "id": 4,
+    "name": "Fresh Milk (500ml)",
+    "price": 40,
+    "stock": 60,
+    "image": "js/images/milk.png"
+  },
+  {
+    "id": 5,
+    "name": "Soap Bar (100g)",
+    "price": 25,
+    "stock": 100,
+    "image": "js/images/soap.png"
+  },
+  {
+    "id": 6,
+    "name": "Tea Leaves (100g)",
+    "price": 80,
+    "stock": 45,
+    "image": "js/images/tea.png"
+  },
+  {
+    "id": 7,
+    "name": "Coffee (200g)",
+    "price": 150,
+    "stock": 30,
+    "image": "js/images/coffee.png"
+  },
+  {
+    "id": 8,
+    "name": "Biscuits (400g)",
+    "price": 55,
+    "stock": 70,
+    "image": "js/images/biscuits.png"
+  },
+  {
+    "id": 9,
+    "name": "Tomato (1kg)",
+    "price": 35,
+    "stock": 80,
+    "image": "js/images/tomato.png"
+  },
+  {
+    "id": 10,
+    "name": "Onion (1kg)",
+    "price": 30,
+    "stock": 90,
+    "image": "js/images/onion.png"
+  },
+  {
+    "id": 11,
+    "name": "Potato (1kg)",
+    "price": 25,
+    "stock": 100,
+    "image": "js/images/potato.png"
+  },
+  {
+    "id": 12,
+    "name": "Carrot (1kg)",
+    "price": 40,
+    "stock": 60,
+    "image": "js/images/caroto.png"
+  },
+  {
+    "id": 13,
+    "name": "Cabbage (1kg)",
+    "price": 28,
+    "stock": 75,
+    "image": "js/images/cabbage.png"
+  },
+  {
+    "id": 14,
+    "name": "Spinach (500g)",
+    "price": 32,
+    "stock": 50,
+    "image": "js/images/spinach.png"
+  },
+  {
+    "id": 16,
+    "name": "Broccoli (500g)",
+    "price": 50,
+    "stock": 40,
+    "image": "js/images/broccoli.png"
+  },
+  {
+    "id": 17,
+    "name": "Cucumber (1kg)",
+    "price": 30,
+    "stock": 70,
+    "image": "js/images/cucumber.png"
+  },
+  {
+    "id": 18,
+    "name": "Garlic (250g)",
+    "price": 45,
+    "stock": 55,
+    "image": "js/images/garlic.png"
+  },
+  {
+    "id": 19,
+    "name": "Banana (1kg)",
+    "price": 50,
+    "stock": 85,
+    "image": "js/images/banana.png"
+  },
+  {
+    "id": 21,
+    "name": "Orange (1kg)",
+    "price": 60,
+    "stock": 70,
+    "image": "js/images/orange.png"
+  },
+  {
+    "id": 22,
+    "name": "Mango (1kg)",
+    "price": 100,
+    "stock": 50,
+    "image": "js/images/mango.png"
+  },
+  {
+    "id": 23,
+    "name": "Grapes (500g)",
+    "price": 80,
+    "stock": 55,
+    "image": "js/images/grapes.png"
+  },
+  {
+    "id": 24,
+    "name": "Watermelon (1pc)",
+    "price": 150,
+    "stock": 30,
+    "image": "js/images/Watermelon.png"
+  },
+  {
+    "id": 25,
+    "name": "Papaya (1pc)",
+    "price": 55,
+    "stock": 40,
+    "image": "js/images/Papaya.png"
+  },
+  {
+    "id": 26,
+    "name": "Pineapple (1pc)",
+    "price": 90,
+    "stock": 35,
+    "image": "js/images/Pineapple.png"
+  },
+  {
+    "id": 27,
+    "name": "Strawberry (250g)",
+    "price": 120,
+    "stock": 45,
+    "image": "js/images/Strawberry.png"
+  },
+  {
+    "id": 28,
+    "name": "Guava (1kg)",
+    "price": 65,
+    "stock": 50,
+    "image": "js/images/Guava.png"
+  }
+]

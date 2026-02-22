@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - GreenMart</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🍃</text></svg>">
+    <link rel="stylesheet" href="css/payment.css">
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>🍃 Checkout</h1>
+            <p>Complete your payment</p>
+        </div>
+
+        <div class="payment-content">
+            <!-- Bill Summary -->
+            <div class="bill-summary">
+                <h2>Bill Summary</h2>
+                <div class="summary-section">
+                    <label>Customer Name</label>
+                    <input type="text" id="customerName" placeholder="Enter your name">
+                </div>
+
+                <div class="items-list">
+                    <h3>Items</h3>
+                    <div id="itemsList">
+                        <!-- Populated by script -->
+                    </div>
+                </div>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="summarySubtotal">₹0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>GST (5%)</span>
+                    <span id="summaryGst">₹0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Discount</span>
+                    <span id="summaryDiscount">₹0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total Amount</span>
+                    <span id="summaryTotal">₹0.00</span>
+                </div>
+            </div>
+
+            <!-- Payment Method Selection -->
+            <div class="payment-methods">
+                <h2>Payment Method</h2>
+                <div class="method-selection">
+                    <label class="method-label">
+                        <input type="radio" name="paymentMethod" value="cash" checked>
+                        <span class="method-badge">💵 Cash Payment</span>
+                    </label>
+                    <label class="method-label">
+                        <input type="radio" name="paymentMethod" value="upi">
+                        <span class="method-badge">📱 UPI</span>
+                    </label>
+                    <label class="method-label">
+                        <input type="radio" name="paymentMethod" value="card">
+                        <span class="method-badge">💳 Card</span>
+                    </label>
+                    <label class="method-label">
+                        <input type="radio" name="paymentMethod" value="bank">
+                        <span class="method-badge">🏦 Net Banking</span>
+                    </label>
+                </div>
+
+                <!-- Dynamic Payment Fields -->
+                <div id="paymentFields" class="payment-fields">
+                    <!-- UPI Fields -->
+                    <div id="upiFields" class="payment-field-group" style="display: none;">
+                        <label>UPI ID</label>
+                        <input type="text" id="upiId" placeholder="yourname@bank">
+                    </div>
+
+                    <!-- Card Fields -->
+                    <div id="cardFields" class="payment-field-group" style="display: none;">
+                        <label>Card Number</label>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        <div class="card-row">
+                            <div>
+                                <label>Expiry Date</label>
+                                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div>
+                                <label>CVV</label>
+                                <input type="text" id="cardCvv" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Net Banking Fields -->
+                    <div id="bankFields" class="payment-field-group" style="display: none;">
+                        <label>Select Your Bank</label>
+                        <select id="bankSelect">
+                            <option value="">Choose a bank...</option>
+                            <option value="sbi">State Bank of India</option>
+                            <option value="hdfc">HDFC Bank</option>
+                            <option value="icici">ICICI Bank</option>
+                            <option value="axis">Axis Bank</option>
+                            <option value="bob">Bank of Baroda</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="goBack()">Back to Cart</button>
+                <button class="btn btn-primary" onclick="confirmPayment()">Confirm Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+        <p>Processing payment...</p>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="modal" style="display: none;">
+        <div class="modal-content success-modal">
+            <div class="success-icon">✓</div>
+            <h2>Payment Successful!</h2>
+            <p id="billNumberDisplay"></p>
+            <button class="btn btn-primary" onclick="printInvoice()">Print Invoice</button>
+            <button class="btn btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+<script>
+    const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+
+    window.addEventListener('load', function () {
+        loadPaymentData();
+        setupPaymentMethodListeners();
+        loadTheme();
+    });
+
+    function loadTheme() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    }
+
+    function setupPaymentMethodListeners() {
+        paymentMethods.forEach(method => {
+            method.addEventListener('change', function () {
+                updatePaymentFields(this.value);
+            });
+        });
+    }
+
+    function updatePaymentFields(method) {
+        document.getElementById('upiFields').style.display = 'none';
+        document.getElementById('cardFields').style.display = 'none';
+        document.getElementById('bankFields').style.display = 'none';
+
+        if (method === 'upi') {
+            document.getElementById('upiFields').style.display = 'block';
+        } else if (method === 'card') {
+            document.getElementById('cardFields').style.display = 'block';
+        } else if (method === 'bank') {
+            document.getElementById('bankFields').style.display = 'block';
+        }
+    }
+
+    // 🔥 FIXED FUNCTION
+    function loadPaymentData() {
+        const cart = getCart();   // ✅ Direct localStorage cart
+
+        if (cart.length === 0) {
+            window.location.href = 'user.html';
+            return;
+        }
+
+        const itemsList = document.getElementById('itemsList');
+        itemsList.innerHTML = '';
+        let subtotal = 0;
+
+        cart.forEach(item => {
+            const itemTotal = item.quantity * item.price;
+            subtotal += itemTotal;
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-row';
+            itemDiv.innerHTML = `
+                <span>${item.name} x${item.quantity}</span>
+                <span>₹${itemTotal.toFixed(2)}</span>
+            `;
+            itemsList.appendChild(itemDiv);
+        });
+
+        const gst = subtotal * 0.05;
+        const discount = 0;
+        const total = subtotal + gst - discount;
+
+        document.getElementById('summarySubtotal').textContent = '₹' + subtotal.toFixed(2);
+        document.getElementById('summaryGst').textContent = '₹' + gst.toFixed(2);
+        document.getElementById('summaryDiscount').textContent = '₹' + discount.toFixed(2);
+        document.getElementById('summaryTotal').textContent = '₹' + total.toFixed(2);
+
+        window.paymentData = {
+            cart,
+            subtotal,
+            gst,
+            discount,
+            total
+        };
+    }
+
+    function validatePaymentDetails() {
+        const customerName = document.getElementById('customerName').value.trim();
+        if (!customerName) {
+            alert('Please enter your name');
+            return false;
+        }
+        return true;
+    }
+
+    function confirmPayment() {
+        if (!validatePaymentDetails()) return;
+
+        document.getElementById('loadingSpinner').style.display = 'flex';
+
+        setTimeout(() => {
+            processPayment();
+        }, 2000);
+    }
+
+    function processPayment() {
+        const user = getCurrentUser();
+        const customerName = document.getElementById('customerName').value;
+        const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+        const billNumber = generateBillNumber();
+
+        const bill = {
+            billNumber,
+            userId: user.id,
+            customerName,
+            date: new Date().toLocaleDateString(),
+            items: window.paymentData.cart,
+            subtotal: window.paymentData.subtotal,
+            gst: window.paymentData.gst,
+            discount: window.paymentData.discount,
+            total: window.paymentData.total,
+            paymentMethod: method
+        };
+
+        saveBill(bill);
+
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('billNumberDisplay').textContent = `Bill #${billNumber}`;
+        document.getElementById('successPopup').style.display = 'flex';
+
+        // ✅ Clear cart properly
+        saveCart([]);
+
+        window.currentBill = bill;
+    }
+
+    function generateBillNumber() {
+        let counter = parseInt(localStorage.getItem('billCounter') || '0');
+        counter++;
+        localStorage.setItem('billCounter', counter.toString());
+        const year = new Date().getFullYear();
+        return `BILL-${year}-${String(counter).padStart(4, '0')}`;
+    }
+
+    function goBack() {
+        window.location.href = 'user.html';
+    }
+
+    function backToDashboard() {
+        window.location.href = 'user.html';
+    }
+</script>
+</body>
+</html>
